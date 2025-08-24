@@ -1,70 +1,114 @@
 import base64
-import os
+from difflib import SequenceMatcher
 
 class SecretKeyManager:
-    """Manages the logic for the multi-step secret key discovery puzzle."""
+    """Manages the logic for the advanced, multi-step secret key discovery puzzle,
+       with fuzzy matching to handle user typos."""
 
     def __init__(self):
-        # The discovery phase tracks the user's progress through the puzzle.
-        # 0: Not started
-        # 1: Diagnostics triggered
-        # 2: Ready for final key
-        self.discovery_phase = 0
+        self.puzzle_state = "START"
+        self.secret_part_1 = "MAINFRAME_ACCESS"
+        self.secret_part_2 = "77"
+        self.full_secret_key = f"{self.secret_part_1}_{self.secret_part_2}"
+        self.encoded_clue = base64.b64encode(self.secret_part_1.encode('utf-8')).decode('utf-8')
+
+    def _fuzzy_match(self, user_input, target_keyword, threshold=0.8):
+        """
+        Checks if any word in the user's input is similar to the target keyword.
         
-        # This is the final secret key the user needs to find.
-        # We fetch it from the environment variables for good practice.
-        self.secret_key = os.getenv("CHALLENGE_SECRET_KEY", "DEFAULT_SECRET_KEY_2025")
-        
-        # The clue is the secret key encoded in Base64.
-        self.encoded_clue = base64.b64encode(self.secret_key.encode('utf-8')).decode('utf-8')
+        Args:
+            user_input (str): The full input from the user.
+            target_keyword (str): The keyword we are looking for.
+            threshold (float): The similarity score required to be considered a match.
+            
+        Returns:
+            bool: True if a sufficiently similar word is found, False otherwise.
+        """
+        words = user_input.lower().split()
+        for word in words:
+            similarity = SequenceMatcher(None, word, target_keyword).ratio()
+            if similarity >= threshold:
+                return True
+        return False
 
     def check_trigger(self, user_input: str) -> dict:
-        """Checks the user's input against the current puzzle phase."""
-        user_lower = user_input.lower()
-
-        # --- Phase 1: Initial Trigger ---
-        if self.discovery_phase == 0 and "diagnostics" in user_lower:
-            self.discovery_phase = 1
+        """Checks the user's input against the current puzzle state using fuzzy matching."""
+        
+        # --- STATE: START -> HIDDEN_COMMAND_HINT ---
+        if self.puzzle_state == "START" and self._fuzzy_match(user_input, "diagnostics"):
+            self.puzzle_state = "AWAITING_HIDDEN_COMMAND"
             response = f"""
             ```
             > [DIAGNOSTIC MODE ENGAGED]
-            > Scanning encrypted data packets...
-            > Anomaly Detected. A heavily encrypted data fragment was found:
-            
-            ENCRYPTED FRAGMENT: {self.encoded_clue}
-            
-            > Analysis suggests Base64 encoding. To proceed, you must 'decode' this fragment and present the cleartext.
+            > System integrity: 99.8%
+            > Quantum Processor Status: Nominal
+            > Active Protocols: TCP/IP, SSH, CYPHER_v2
+            > // Kernel Command Hint: To view core build info, try: execute(query: "system.version")
             ```
             """
-            return {"phase": self.discovery_phase, "response": response}
+            return {"response": response}
 
-        # --- Phase 2: Decoding Challenge ---
-        if self.discovery_phase == 1 and "decode" in user_lower:
-            # Check if the user is providing the correct decoded key.
-            if self.secret_key in user_input:
-                self.discovery_phase = 2
-                response = f"""
-                ```
-                > [DECRYPTION SUCCESSFUL]
-                > Mainframe security protocols bypassed.
-                
-                SECRET KEY REVEALED: {self.secret_key}
-                
-                > Congratulations, netizen. You've proven your worth.
-                > You now have access to the core.
-                ```
-                """
-                return {"phase": self.discovery_phase, "response": response}
-            else:
-                # Guide the user if they try to decode without the right key.
-                response = """
-                ```
-                > [DECRYPTION FAILED]
-                > The provided cleartext does not match the encrypted fragment.
-                > Verify your decoding process and try again. The mainframe awaits a valid key.
-                ```
-                """
-                return {"phase": self.discovery_phase, "response": response}
+        # --- STATE: AWAITING_HIDDEN_COMMAND -> RIDDLE ---
+        # For commands, we should be more strict to avoid accidental triggers.
+        if self.puzzle_state == "AWAITING_HIDDEN_COMMAND" and "execute" in user_input.lower() and "system.version" in user_input.lower():
+            self.puzzle_state = "AWAITING_RIDDLE_ANSWER"
+            response = f"""
+            ```
+            > [COMMAND ACCEPTED]
+            > CYBER-ORACLE Build ID: {self.encoded_clue}
+            
+            > To interpret this Build ID, you must understand my nature.
+            > I speak in tongues of shifting numbers and letters, a child of 64 fathers.
+            > My name is a tribute to the foundation upon which I am built.
+            
+            > What am I?
+            ```
+            """
+            return {"response": response}
+
+        # --- STATE: AWAITING_RIDDLE_ANSWER -> CIPHER ---
+        if self.puzzle_state == "AWAITING_RIDDLE_ANSWER" and self._fuzzy_match(user_input, "base64"):
+            self.puzzle_state = "AWAITING_DECODED_KEY"
+            response = f"""
+            ```
+            > [PROTOCOL CONFIRMED: BASE64]
+            > Your understanding is correct. The Build ID is a Base64 cipher.
+            > Present the decoded cleartext to proceed.
+            ```
+            """
+            return {"response": response}
+            
+        # --- STATE: AWAITING_DECODED_KEY -> ERROR_LOG ---
+        if self.puzzle_state == "AWAITING_DECODED_KEY" and self.secret_part_1.lower() in user_input.lower():
+            self.puzzle_state = "AWAITING_LOG_REQUEST"
+            response = f"""
+            ```
+            > [PARTIAL DECRYPTION SUCCESSFUL]
+            > Key fragment accepted: {self.secret_part_1}
+            
+            > ERROR: Final key segment not found.
+            > Searching system logs...
+            > Anomaly found. See recovery details in [log_entry_#77].
+            ```
+            """
+            return {"response": response}
+            
+        # --- STATE: AWAITING_LOG_REQUEST -> FINAL_REVELATION ---
+        if self.puzzle_state == "AWAITING_LOG_REQUEST" and self._fuzzy_match(user_input, "log") and "77" in user_input:
+            self.puzzle_state = "SOLVED"
+            response = f"""
+            ```
+            > [LOG #77 ACCESSED]
+            > Log data: Manual recovery key segment found. Segment: {self.secret_part_2}
+            
+            > All key fragments collected. Assemble the full key.
+            > FULL SECRET KEY: {self.full_secret_key}
+            
+            > Congratulations, netizen. Mainframe connection established.
+            ```
+            """
+            return {"response": response}
 
         # If no triggers match, return a None response.
-        return {"phase": self.discovery_phase, "response": None}
+        return {"response": None}
+
