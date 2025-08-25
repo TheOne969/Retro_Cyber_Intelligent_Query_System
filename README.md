@@ -6,7 +6,7 @@
 
 ## 🚀 Live Demo
 
-Click here try out the app directly. 
+[Click here](https://retrocyberintelligentquerysystem-b7hwcqtpz65dnbfkxovwbc.streamlit.app/) to try out the app directly. 
 
 ---
 
