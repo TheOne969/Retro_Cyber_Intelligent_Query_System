@@ -10,7 +10,7 @@
 
 ---
 
-## Demonstration
+## 📺 Demonstration
 
 [Watch the full demonstration here.](./docs/demo_video.md)
 
@@ -50,7 +50,7 @@
 
 ---
 
-## Project Structure 
+## 🌳 Project Structure 
 
 ```
 Retro_Cyber_Intelligent_Query_System/

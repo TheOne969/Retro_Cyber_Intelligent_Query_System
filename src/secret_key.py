@@ -1,5 +1,6 @@
 import base64
 from difflib import SequenceMatcher
+import re
 
 class SecretKeyManager:
     """Manages the logic for the advanced, multi-step secret key discovery puzzle,
@@ -14,19 +15,12 @@ class SecretKeyManager:
 
     def _fuzzy_match(self, user_input, target_keyword, threshold=0.8):
         """
-        Checks if any word in the user's input is similar to the target keyword.
-        
-        Args:
-            user_input (str): The full input from the user.
-            target_keyword (str): The keyword we are looking for.
-            threshold (float): The similarity score required to be considered a match.
-            
-        Returns:
-            bool: True if a sufficiently similar word is found, False otherwise.
+        Checks if any token in the user's input is similar to the target keyword.
+        Splits input on spaces, underscores, and dashes for better matching.
         """
-        words = user_input.lower().split()
-        for word in words:
-            similarity = SequenceMatcher(None, word, target_keyword).ratio()
+        tokens = re.split(r'[\s_-]+', user_input.lower())
+        for token in tokens:
+            similarity = SequenceMatcher(None, token, target_keyword).ratio()
             if similarity >= threshold:
                 return True
         return False
