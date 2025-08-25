@@ -23,6 +23,8 @@
 
 *![alt text](assets/images/ss2.png)*
 
+**NOTE: Reload the page if you can't see the images**
+
 ---
 
 ## 📋 Project Overview
