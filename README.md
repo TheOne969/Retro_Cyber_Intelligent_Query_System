@@ -19,9 +19,9 @@
 ## 📸 Screenshots
 
 **Main Interface:**
-*![alt text](assets\images\ss.png)*
+*![alt text](assets/images/ss.png)*
 
-*![alt text](assets\images\ss2.png)*
+*![alt text](assets/images/ss2.png)*
 
 ---
 
@@ -144,7 +144,7 @@ The secret key is hidden behind a sophisticated, multi-step conversational puzzl
 -   [x] **Phase 1: Foundation & API Setup** - *Complete*
 -   [x] **Phase 2: Retro-Cyber Theming** - *Complete*
 -   [x] **Phase 3: Secret Key Mechanism** - *Complete*
--   [ ] **Phase 4: Deployment & Final Documentation** - *Complete*
+-   [x] **Phase 4: Deployment & Final Documentation** - *Complete*
 
 ---
 
