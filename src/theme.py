@@ -109,3 +109,4 @@ def display_ascii_art():
     ```
     """
     return ascii_art
+

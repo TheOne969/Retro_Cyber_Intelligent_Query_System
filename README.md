@@ -6,6 +6,12 @@
 
 ## 🚀 Live Demo
 
+Click here try out the app directly. 
+
+---
+
+## Demonstration
+
 [Watch the full demonstration here.](./docs/demo_video.md)
 
 ---
@@ -13,10 +19,9 @@
 ## 📸 Screenshots
 
 **Main Interface:**
-*[Insert your main interface screenshot here]*
+*![alt text](assets\images\ss.png)*
 
-**Secret Key Discovery:**
-*[Insert a screenshot of the puzzle steps here]*
+*![alt text](assets\images\ss2.png)*
 
 ---
 
@@ -26,10 +31,10 @@
 
 ### 🎯 Key Features
 
--   [x] **Retro-Cyber Terminal Interface:** Custom CSS creates an immersive terminal with neon text, scanlines, and a boot-up sequence.
--   [x] **Intelligent AI Persona:** Powered by the Google Gemini API, the CYBER-ORACLE has a distinct, mysterious personality.
--   [x] **Interactive Elements:** Features include ASCII art and a real-time typing animation for AI responses.
--   [x] **Advanced Multi-Layered Puzzle:** A sophisticated 5-step puzzle that requires logic, observation, and technical knowledge to solve.
+-   **Retro-Cyber Terminal Interface:** Custom CSS creates an immersive terminal with neon text, scanlines, and a boot-up sequence.
+-   **Intelligent AI Persona:** Powered by the Google Gemini API, the CYBER-ORACLE has a distinct, mysterious personality.
+-   **Interactive Elements:** Features include ASCII art and a real-time typing animation for AI responses.
+-   **Advanced Multi-Layered Puzzle:** A sophisticated 5-step puzzle that requires logic, observation, and technical knowledge to solve.
 
 ---
 
@@ -43,6 +48,33 @@
 
 ---
 
+## Project Structure 
+
+```
+Retro_Cyber_Intelligent_Query_System/
+├── assets/            # Directory for images/icons used in UI
+
+├── docs/              # Documentation files, e.g., demo video markdown
+
+├── src/               # Source code for the main app logic and modules
+│   ├── __init__.py    # Declares 'src' as a Python package
+│   ├── ai_core.py     # Handles AI communication with Google Gemini API
+│   ├── secret_key.py  # Implements advanced secret key puzzle logic
+│   ├── theme.py       # Contains all custom CSS and theming functions
+
+├── tests/             # Unit tests and validations for your code
+│   └── test_gemini.py # Example test for Gemini integration
+
+├── app.py             # Main entry-point Streamlit application
+├── requirements.txt   # Python package dependencies for the project
+├── .env.example       # Example of environment configuration file
+├── .env               # Local environment variables (e.g., API keys)
+├── .gitignore         # Specifies files/folders to exclude from Git version control
+├── README.md          # Project overview, setup instructions, and documentation
+
+```
+
+
 ## 🔧 Installation & Setup
 
 ### Prerequisites
@@ -53,8 +85,8 @@
 
 1.  **Clone the repository:**
     ```
-    git clone https://github.com/yourusername/retro-cyber-intelligent-query-system.git
-    cd retro-cyber-intelligent-query-system
+    git clone https://github.com/TheOne969/Retro_Cyber_Intelligent_Query_System.git
+    cd Retro-Cyber-Intelligent-Query-System
     ```
 
 2.  **Install dependencies:**
@@ -68,6 +100,7 @@
         ```
         GEMINI_API_KEY=YOUR_API_KEY_HERE
         ```
+        (You can refer to .env.example) 
 
 4.  **Run the application:**
     ```
@@ -111,7 +144,7 @@ The secret key is hidden behind a sophisticated, multi-step conversational puzzl
 -   [x] **Phase 1: Foundation & API Setup** - *Complete*
 -   [x] **Phase 2: Retro-Cyber Theming** - *Complete*
 -   [x] **Phase 3: Secret Key Mechanism** - *Complete*
--   [ ] **Phase 4: Deployment & Final Documentation** - *In Progress*
+-   [ ] **Phase 4: Deployment & Final Documentation** - *Complete*
 
 ---
 
